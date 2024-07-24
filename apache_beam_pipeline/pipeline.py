@@ -77,7 +77,6 @@ def run_pipeline():
             # Read from the CSV file
             lines = p | 'Read' >> beam.io.ReadFromText('apache_beam_pipeline/yellow_tripdata_2022-01.csv',
                                                        skip_header_lines=1)
-
             # Parse CSV lines
             parsed_lines = lines | 'ParseCSV' >> beam.Map(lambda line: line.split(','))
 
@@ -125,6 +124,7 @@ def run_pipeline():
             print("Data Processing : Done !")
 
             calc_avg_total_total_distance | 'IndexToElasticsearch' >> beam.ParDo(DocumentInsertion())
+            p.run().wait_until_finish()
 
     except Exception as e:
         print("Error occured while running pipeline : ", str(e))
