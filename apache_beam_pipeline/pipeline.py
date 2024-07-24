@@ -6,20 +6,8 @@ from dotenv import load_dotenv
 import apache_beam as beam
 from apache_beam.options.pipeline_options import PipelineOptions, SetupOptions
 from elasticsearch import Elasticsearch
-from elasticsearch.helpers import bulk
 load_dotenv()
 
-
-
-def index_to_elasticsearch(elasticsearch_client, index_name, documents):
-    print(documents)
-    actions = [
-        {
-            "_index": index_name,
-            "_source": doc
-        } for doc in documents
-    ]
-    bulk(elasticsearch_client, actions)
 
 class IndexToElasticsearch(beam.DoFn):
     def __init__(self, es_client, index_name):
@@ -65,7 +53,6 @@ class SingletonElasticSearch:
 
     def get_client(self):
         return self.client
-
 
 class DocumentInsertion(beam.DoFn):
 
