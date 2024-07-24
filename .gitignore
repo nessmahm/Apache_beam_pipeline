@@ -1,0 +1,4 @@
+.env
+.venv
+.idea/
+./apache_beam_pipeline/yellow_tripdata_2022-01.csv
